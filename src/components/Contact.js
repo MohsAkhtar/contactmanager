@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 
 class Contact extends Component {
   render() {
+    const { name, email, phone } = this.props;
     return (
       <div>
-        <h4>John Doe</h4>
+        <h4>{name}</h4>
         <ul>
-          <li>Email: johndoe@email.com</li>
-          <li>Phone: 123456789</li>
+          <li>{email}</li>
+          <li>{phone}</li>
         </ul>
       </div>
     );
