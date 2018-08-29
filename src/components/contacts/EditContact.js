@@ -1,16 +1,31 @@
 import React, { Component } from 'react';
 import { Consumer } from '../../context';
 import TextInputGroup from '../layout/TextInputGroup';
-import uuid from 'uuid';
 import axios from 'axios';
 
-class AddContact extends Component {
+class EditContact extends Component {
   state = {
     name: '',
     email: '',
     phone: '',
     errors: {}
   };
+
+  // gets data from the json site. Same method would be for db.
+  async componentDidMount() {
+    const { id } = this.props.match.params; // id in URL of user
+    const response = await axios.get(
+      `https://jsonplaceholder.typicode.com/users/${id}`
+    );
+
+    const contact = response.data;
+
+    this.setState({
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone
+    });
+  }
 
   onSubmit = async (dispatch, e) => {
     e.preventDefault(); // to stop submitting to actual file
@@ -31,22 +46,6 @@ class AddContact extends Component {
       this.setState({ errors: { phone: 'Phone is required' } });
       return;
     }
-
-    const newContact = {
-      //id: uuid(), // will generate a unique id for us no longer needed with api
-      name, // same as name: name, useful if key value same name
-      email,
-      phone
-    };
-
-    // we want to pass in a 'type' and 'payload'
-    // old way: dispatch({ type: 'ADD_CONTACT', payload: newContact });
-    const response = await axios.post(
-      'https://jsonplaceholder.typicode.com/users',
-      newContact
-    );
-
-    dispatch({ type: 'ADD_CONTACT', payload: response.data });
 
     // clear state on submit
     this.setState({
@@ -102,7 +101,7 @@ class AddContact extends Component {
                   />
                   <input
                     type="submit"
-                    value="Add Contact"
+                    value="Update Contact"
                     className="btn btn-block"
                   />
                 </form>
@@ -115,4 +114,4 @@ class AddContact extends Component {
   }
 }
 
-export default AddContact;
+export default EditContact;

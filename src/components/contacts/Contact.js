@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../context';
 import axios from 'axios';
@@ -21,8 +22,9 @@ class Contact extends Component {
       dispatch({ type: 'DELETE_CONTACT', payload: id });
     } catch (e) {
       // this catch is only to make this app work because we can't actually
-      // delete stuff from the api. We don't need this f we are working with
-      // a database.
+      // delete stuff from the api. We don't need this if we are working with
+      // a database. We'll get a 404 error in the 'try' which will execute this 'catch' will
+      // then delete from the page anyway.
       dispatch({ type: 'DELETE_CONTACT', payload: id });
     }
   };
@@ -48,6 +50,17 @@ class Contact extends Component {
                   style={{ cursor: 'pointer', float: 'right', color: 'red' }}
                   onClick={this.onDeleteClick.bind(this, id, dispatch)}
                 />
+                <Link to={`contact/edit/${id}`}>
+                  <i
+                    className="fas fa-pencil-alt"
+                    style={{
+                      cursor: 'pointer',
+                      float: 'right',
+                      color: 'black',
+                      marginRight: '1rem'
+                    }}
+                  />
+                </Link>
               </h4>
               {showContactInfo ? (
                 <ul className="list-group">
