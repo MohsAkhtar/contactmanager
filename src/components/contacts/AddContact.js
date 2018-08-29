@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Consumer } from '../../context';
 import TextInputGroup from '../layout/TextInputGroup';
 import uuid from 'uuid';
+import axios from 'axios';
 
 export default class AddContact extends Component {
   state = {
@@ -11,7 +12,7 @@ export default class AddContact extends Component {
     errors: {}
   };
 
-  onSubmit = (dispatch, e) => {
+  onSubmit = async (dispatch, e) => {
     e.preventDefault(); // to stop submitting to actual file
     const { name, email, phone } = this.state;
 
@@ -32,14 +33,20 @@ export default class AddContact extends Component {
     }
 
     const newContact = {
-      id: uuid(), // will generate a unique id for us
+      //id: uuid(), // will generate a unique id for us no longer needed with api
       name, // same as name: name, useful if key value same name
       email,
       phone
     };
 
     // we want to pass in a 'type' and 'payload'
-    dispatch({ type: 'ADD_CONTACT', payload: newContact });
+    // old way: dispatch({ type: 'ADD_CONTACT', payload: newContact });
+    const response = await axios.post(
+      'https://jsonplaceholder.typicode.com/users',
+      newContact
+    );
+
+    dispatch({ type: 'ADD_CONTACT', payload: response.data });
 
     // clear state on submit
     this.setState({

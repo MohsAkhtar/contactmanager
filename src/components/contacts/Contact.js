@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../context';
+import axios from 'axios';
 
 class Contact extends Component {
   state = {
@@ -11,8 +12,19 @@ class Contact extends Component {
     this.setState({ showContactInfo: !this.state.showContactInfo });
   };
 
-  onDeleteClick = (id, dispatch) => {
-    dispatch({ type: 'DELETE_CONTACT', payload: id });
+  // we are pretending to delte from a db here
+  onDeleteClick = async (id, dispatch) => {
+    // makes request to backend first then handles dispatch
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
+
+      dispatch({ type: 'DELETE_CONTACT', payload: id });
+    } catch (e) {
+      // this catch is only to make this app work because we can't actually
+      // delete stuff from the api. We don't need this f we are working with
+      // a database.
+      dispatch({ type: 'DELETE_CONTACT', payload: id });
+    }
   };
 
   render() {
