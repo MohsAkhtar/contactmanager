@@ -48,6 +48,9 @@ export default class AddContact extends Component {
       phone: '',
       errors: {}
     });
+
+    // redirect back to home
+    this.props.history.push('/');
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value }); // e.g. name: e.target.value
