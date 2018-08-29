@@ -13,7 +13,7 @@ class Contact extends Component {
     this.setState({ showContactInfo: !this.state.showContactInfo });
   };
 
-  // we are pretending to delte from a db here
+  // we are pretending to delete from a db here
   onDeleteClick = async (id, dispatch) => {
     // makes request to backend first then handles dispatch
     try {

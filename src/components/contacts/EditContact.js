@@ -47,6 +47,22 @@ class EditContact extends Component {
       return;
     }
 
+    const updateContact = {
+      name,
+      email,
+      phone
+    };
+
+    // pull id from params
+    const { id } = this.props.match.params;
+
+    const response = await axios.put(
+      `https://jsonplaceholder.typicode.com/users/${id}`,
+      updateContact
+    );
+
+    dispatch({ type: 'UPDATE_CONTACT', payload: response.data });
+
     // clear state on submit
     this.setState({
       name: '',
@@ -70,7 +86,7 @@ class EditContact extends Component {
           const { dispatch } = value; // have access to dispatch now we have access to actions
           return (
             <div className="card mb-3">
-              <div className="card-header">Add Contact</div>
+              <div className="card-header">Edit Contact</div>
               <div className="card-body">
                 <form onSubmit={this.onSubmit.bind(this, dispatch)}>
                   <TextInputGroup

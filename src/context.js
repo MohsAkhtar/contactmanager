@@ -19,6 +19,17 @@ const reducer = (state, action) => {
         // payload will be entire contact
         contacts: [action.payload, ...state.contacts] // add it to current contacts
       };
+    case 'UPDATE_CONTACT':
+      return {
+        ...state,
+        // we are updating with map
+        contacts: state.contacts.map(
+          contact =>
+            contact.id === action.payload.id
+              ? (contact = action.payload)
+              : contact
+        )
+      };
     default:
       return state;
   }
